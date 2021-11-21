@@ -17,4 +17,5 @@ generate shapes based on input:
 
 classes
 - 2 types of blocks; power or no power
-
+- robots: how to represent?
+- 
