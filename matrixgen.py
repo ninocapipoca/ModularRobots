@@ -27,30 +27,38 @@ import math
 # mat = generate_circle(7, 5, 5, 2.2)
 # print(DataFrame(mat))
 
-
-def generate_circle(r, width, height, a, b):
-    mat = [['0' for x in range(width)] for y in range(height)]
+# def generate_circle(r, d, a, b):
+def generate_circle(d):
+    r = d//2
+    a = d//2
+    mat = [[0 for x in range(d)] for y in range(d)]
 
     # draw the circle
-    for y in range(height):
-        for x in range(width):
-            dist = abs((x-a)**2 + (y-b)**2)
+    for y in range(d):
+        for x in range(d):
+            dist = abs((x-a)**2 + (y-a)**2)
             if dist <= r**2:
-            #if math.sqrt(x**2 + y**2) > d:
-                mat[y][x] = '1'
+                mat[y][x] = 1
 
     return mat
 
 
+def prettyprint_mat(mat):
+    for y in range(len(mat)):
+        for x in range(len(mat)):
+            mat[y][x] = str(mat[y][x])
 
+    for line in mat:
+        print(' '.join(line))
 
+# TESTING
+mat = generate_circle(7)
+prettyprint_mat(mat)
+
+# FOR TESTING PURPOSES but no longer in use
 #print(DataFrame(map_))
 
-width, height = 5, 5
-a, b = height//2, height//2
-r = a
-
-mat = generate_circle(r, width, height, a, b)
-#print the map
-for line in mat:
-    print(' '.join(line))
+# mat = generate_circle(7)
+# #print the map
+# for line in mat:
+#     print(' '.join(line))
