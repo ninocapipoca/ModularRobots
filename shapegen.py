@@ -19,6 +19,43 @@ def extend(mat, n):
             
     return res
 
+def validconfig(mat):
+    """checks if a flat shape / matrix is a valid configuration"""
+    # it is valid if a block is connected to at least one other block
+    # i.e. all the ones have at least 1 neighbor that is a one
+
+    for x in range(len(mat)):
+        for y in range(len(mat)):
+            if mat[x][y] == 1:
+                neighbors = [mat[x+a[0]][y+a[1]] for a in 
+                             [(-1,0), (1,0), (0,-1), (0,1)] 
+                             if ( (0 <= x + a[0] < len(mat)) and (0 <= y + a[1] < len(mat)))]
+                
+                if 1 not in neighbors:
+                    return False
+    return True
+
+def reduce(mat):
+    """makes mat as small as possible while maintaining it square and not
+    losing any ones"""
+    empty = 0
+    d = len(mat)
+    
+    newmat = []
+
+    for i in range(d-1, -1, -1):
+        if 1 in mat[i]:
+            break
+        empty += 1
+    
+    newmat.append(mat[0][:-empty])
+    for i in range(1,d):
+        if 1 in mat[i] and i != 0:
+            newmat.append(mat[i][:-empty])
+        
+    return newmat
+
+
 # Classes
 class Block:
     # properties
@@ -38,6 +75,14 @@ class FlatShape:
         self.d = d
         self.mat = mat
         
+    def reduceself(self):
+        self.mat = reduce(self.mat)
+        return self.mat
+        
+    def extendself(self, n):
+        self.mat = extend(self.mat, n)
+        return self.mat
+        
     def transform(self, x, y):
         # shift shape by x and/or y
         pass
@@ -48,7 +93,24 @@ class FlatShape:
     
     def intersection(self, shape):
         # intersection of 2 shapes is the space occupied where they overlap
-        pass
+        n = max(self.d, shape.d)
+        print("n is ", n)
+        res_mat = [[0 for x in range(n)] for y in range(n)]
+        
+        shapemat = shape.mat
+        if n == self.d:
+            #shapemat = extend(shape.mat, self.d - shape.d)
+            shapemat = shape.extendself(self.d - shape.d)
+        elif n == shape.d:
+            #shapemat = extend(self.mat, shape.d - self.d)
+            shapemat = self.extendself(shape.d, self.d)
+        
+        for i in range(n):
+            for j in range(n):
+                res_mat[i][j] = self.mat[i][j] and shapemat[i][j]
+                
+        self.mat = res_mat
+        return self.mat
     
     def subtract(self, shape):
         # subtracts shape from self, modifies self matrix and returns it
@@ -63,11 +125,13 @@ class FlatShape:
                     res_mat[i][j] = max(0, self.mat[i][j] - shape.mat[i][j])
                 
                 elif n == self.d: # if self is bigger, extend other shape matrix
-                    shapemat = extend(shape.mat, self.d-shape.d)
+                    #shapemat = extend(shape.mat, self.d-shape.d)
+                    shapemat = shape.extendself(self.d - shape.d)
                     res_mat[i][j] = max(0, self.mat[i][j] - shapemat[i][j])
                     
                 else: # otherwise, other is bigger, extend self
-                    selfmat = extend(self.mat, shape.d - self.d)
+                    #selfmat = extend(self.mat, shape.d - self.d)
+                    selfmat = self.extendself(shape.d - self.d)
                     res_mat[i][j] = max(0, selfmat[i][j] - shape.mat[i][j])
                     
         self.mat = res_mat
@@ -140,6 +204,8 @@ class Circle(FlatShape):
                     
         self.mat = mat
         return mat
+    
+
     
     
         
