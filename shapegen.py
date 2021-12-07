@@ -76,6 +76,10 @@ class FlatShape:
     def generate(self):
         # returns the matrix for this shape and sets it as self.mat
         pass
+    
+    def does_intersect(self, shape):
+        # returns a boolean; whether self and the other shape overlap anywhere
+        pass
         
 
 class Triangle(FlatShape):
@@ -111,6 +115,31 @@ class Square(FlatShape):
     def generate(self):
         self.mat = [[1 for i in range(self.d)] for j in range(self.d)]
         return self.mat
+    
+    
+class Circle(FlatShape):
+    def __init__(self, d, c = None, mat=[]):
+        super().__init__(d, mat=[])
+        
+        if c is None:
+            self.center = (self.d//2, self.d//2)
+        else:
+            self.center = c
+        
+    def generate(self):
+        r = self.d//2
+        a, b = self.center
+        mat = [[0 for x in range(self.d)] for y in range(self.d)]
+    
+        # draw the circle
+        for y in range(self.d):
+            for x in range(self.d):
+                dist = abs((x-a)**2 + (y-b)**2)
+                if dist <= r**2:
+                    mat[y][x] = 1
+                    
+        self.mat = mat
+        return mat
     
     
         
