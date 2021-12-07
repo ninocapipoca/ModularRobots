@@ -1,33 +1,7 @@
 from pandas import *
 import math
-# def generate_circle(d):
-#     mat = [[1 for i in range(d)] for j in range(d)]
-#     remove = (d-3)//2
-#     cnt = 0
-#     for i in range(remove):
-#         for j in range(d):
-#             if j < remove or j > remove+2:
-#                 mat[i][j] = 0
-#
-#     for i in range(remove+3, d):
-#         mat[i] = mat[i-(d-remove)]
-#
-#
-#     return mat
 
-# def generate_circle(d, a, b, eps):
-#     mat = [[0 for x in range(d)] for y in range(d)]
-#
-#     for y in range(d):
-#         for x in range(d):
-#             if abs((x-a)**2 + (y-b)**2 - (d//2)**2) < eps**2:
-#                 mat[y][x] = 0
-#
-#
-# mat = generate_circle(7, 5, 5, 2.2)
-# print(DataFrame(mat))
-
-# def generate_circle(r, d, a, b):
+    
 def generate_circle(d):
     r = d//2
     a = d//2
@@ -41,6 +15,28 @@ def generate_circle(d):
                 mat[y][x] = 1
 
     return mat
+
+def generate_triangle(d):
+    """generates a triangle of base length d"""
+    # note that if d is an even number, the top of the triangle
+    # will be made up of 2 blocks
+    
+    mat =[]
+    cnt = d
+    zcnt = 0
+    for i in range(d):
+        addme = [1 for x in range(cnt)]
+        withzeroes = add_zeroes(addme, zcnt//2)
+
+        if len(withzeroes) > d:
+            mat.append([0 for x in range(d)])
+        else:
+            mat.append(withzeroes)
+            
+        cnt -= 2
+        zcnt += 2
+        
+    return mat[::-1] # return the reverse of the matrix
 
 
 def prettyprint_mat(mat):
