@@ -3,10 +3,11 @@
 
 # Auxiliary functions
 def add_zeroes(arr, n):
-    # adds a specified amount of zeroes to the beginning and end of an array
+    """adds a specified amount of zeroes to the beginning and end of an array"""
     return [0 for x in range(n)] + arr + [0 for x in range(n)]
 
 def extend(mat, n):
+    """extends the matrix by n  rows/cols"""
     # adds n more rows/cols to the matrix
     res = []
         
@@ -55,6 +56,43 @@ def reduce(mat):
         
     return newmat
 
+def transform_y(mat, y):
+    """moves the shape inside mat by y"""
+    # this function treats the matrix as a stationary viewport
+    # it means that it is possible to end up with a matrix made up
+    # entirely of zeroes if you move the shape too far up
+    cnt = 0
+    for line in mat:
+        if 1 in line:
+            break
+        cnt += 1
+    
+    if y > 0: # move up
+        return mat[y:] + [[0 for _ in range(len(mat))] for _ in range(y)]
+    
+    elif y < 0: # move down
+        amt = abs(y)
+        return [[0 for _ in range(len(mat))] for _ in range(amt)] + mat[:y]
+    
+    else: # do nothing - i surely hope we never use this condition
+        return mat
+
+    
+def transform_x(mat, x):
+    """ moves the shape inside the mat by x"""
+    # this function works similarly to transform_y
+    if x > 0:
+        # then we are going to move the shape left
+        return [mat[i][x:] + [0 for _ in range(x)] for i in range(len(mat))]
+    
+    elif x < 0:
+        # then we move the shape right
+        amt = abs(x)
+        return [[0 for _ in range(amt)] + mat[i][:x] for i in range(len(mat))]
+    
+    else:
+        return mat
+
 
 # Classes
 class Block:
@@ -83,15 +121,12 @@ class FlatShape:
         self.mat = extend(self.mat, n)
         return self.mat
         
-    def transform_x(self, x):
-        # move shape up by x
-        cnt = 0
-        for line in self.mat:
-            if 1 in line:
-                break
-            cnt += 1
-
-        return self.mat[x:] + [[0 for _ in range(self.d)] for _ in range(x)]
+    def transform(self, x, y):
+        # translate s
+        xtransf = transform_x(self.mat, x)
+        ytransf = transform_y(xtransf, y)
+        self.mat = ytransf
+        return self.mat
     
     def union(self, shape):
         # union of 2 shapes is the space occupied by both of them
@@ -233,6 +268,7 @@ class Circle(FlatShape):
         self.mat = mat
         self.d = len(self.mat)
         return mat
+    
     
 
     
