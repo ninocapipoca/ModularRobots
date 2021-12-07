@@ -83,18 +83,43 @@ class FlatShape:
         self.mat = extend(self.mat, n)
         return self.mat
         
-    def transform(self, x, y):
-        # shift shape by x and/or y
-        pass
+    def transform_x(self, x):
+        # move shape up by x
+        cnt = 0
+        for line in self.mat:
+            if 1 in line:
+                break
+            cnt += 1
+
+        return self.mat[x:] + [[0 for _ in range(self.d)] for _ in range(x)]
     
     def union(self, shape):
         # union of 2 shapes is the space occupied by both of them
-        pass
+        n = max(self.d, shape.d)
+        res_mat = [[0 for x in range(n)] for y in range(n)]
+        
+        shapemat = shape.mat
+        if n == self.d:
+            #shapemat = extend(shape.mat, self.d - shape.d)
+            shapemat = shape.extendself(self.d - shape.d)
+        elif n == shape.d:
+            #shapemat = extend(self.mat, shape.d - self.d)
+            shapemat = self.extendself(shape.d, self.d)
+        
+        for i in range(n):
+            for j in range(n):
+                res_mat[i][j] = self.mat[i][j] or shapemat[i][j]
+                
+        self.mat = res_mat
+        self.d = len(res_mat)
+        return self.mat
+    
+    def valid(self):
+        return validconfig(self.mat)
     
     def intersection(self, shape):
         # intersection of 2 shapes is the space occupied where they overlap
         n = max(self.d, shape.d)
-        print("n is ", n)
         res_mat = [[0 for x in range(n)] for y in range(n)]
         
         shapemat = shape.mat
@@ -110,6 +135,7 @@ class FlatShape:
                 res_mat[i][j] = self.mat[i][j] and shapemat[i][j]
                 
         self.mat = res_mat
+        self.d = len(res_mat)
         return self.mat
     
     def subtract(self, shape):
@@ -135,6 +161,7 @@ class FlatShape:
                     res_mat[i][j] = max(0, selfmat[i][j] - shape.mat[i][j])
                     
         self.mat = res_mat
+        self.d = len(res_mat)
         return self.mat
     
     def generate(self):
@@ -168,6 +195,7 @@ class Triangle(FlatShape):
             zcnt += 2
             
         self.mat = mat[::-1]
+        self.d = len(self.mat)
             
         return self.mat
     
@@ -203,6 +231,7 @@ class Circle(FlatShape):
                     mat[y][x] = 1
                     
         self.mat = mat
+        self.d = len(self.mat)
         return mat
     
 
