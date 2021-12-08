@@ -2,12 +2,17 @@
 
 
 # TO DO
-# Fix reduce function
+# Fix reduce function for 2D shapes
 # (Optionally) fix prettyprint
-# Add scalar
-# 
+# Add scale for 3D shapes
+# Union for 3D
+# Intersection for 3D
+# Subtract for 3D
+# Fix scale function (centering shapes issue)
 
 # DONE
+# Add scalar function for 2D shapes
+
 
 
 # Auxiliary functions
@@ -123,6 +128,21 @@ def transform_x(mat, x):
     
     else:
         return mat
+    
+def extend_center(mat, n):
+    if n%2 != 0:
+        print("Error, you can only extend by an even number")
+        return mat
+    res = []
+        
+    for line in mat:
+        line = [0 for x in range(n//2)] + line + [0 for x in range(n//2)]
+        res.append(line)
+        
+    amt = len(mat) + n
+    res = [[0 for x in range(amt)] for y in range(n//2)] + res + [[0 for x in range(amt)] for y in range(n//2)]
+        
+    return res
 
 
 # Classes
@@ -319,6 +339,60 @@ class Circle(Shape2D):
         self.mat = mat
         self.d = len(self.mat)
         return mat
+    
+
+class Shape3D():
+    def __init__(self, d, matlist=[]):
+        self.d = d
+        self.matlist = matlist
+        
+    def generate(self):
+        pass
+    
+    def valid(self):
+        pass
+    
+    def subtract(self, shape):
+        pass
+    
+    def union(self, shape):
+        pass
+    
+    def intersection(self, shape):
+        pass
+    
+    
+class Sphere(Shape3D):
+    def __init__(self, d, matlist=[]):
+        super().__init__(d, matlist=[])
+        
+    def generate(self):
+        cnt = 1
+        extby = self.d // 2
+        #oneext = extend_center([[1]], extby)
+        #self.matlist.append(Circle(len(oneext), None, oneext))
+        
+        while cnt != self.d + 2:
+            circle = Circle(cnt)
+            mat = circle.generate()
+            
+            if len(mat) < self.d:
+                diff = len(mat) - self.d
+                circle.mat = extend_center(mat, diff)
+            
+            self.matlist.append(circle)
+            
+            cnt += 2
+        
+        addme = self.matlist[:len(self.matlist)-1]
+        self.matlist = self.matlist + addme[::-1]
+        
+        return self.matlist            
+            
+            
+            
+            
+    
     
     
 
