@@ -2,9 +2,20 @@
 
 
 # Auxiliary functions
+
+# Note that some of these may be integrated into the classes directly later
+# This is just to simplify things for now
 def add_zeroes(arr, n):
     """adds a specified amount of zeroes to the beginning and end of an array"""
     return [0 for x in range(n)] + arr + [0 for x in range(n)]
+
+def prettyprint_mat(mat):
+    for y in range(len(mat)):
+        for x in range(len(mat)):
+            mat[y][x] = str(mat[y][x])
+
+    for line in mat:
+        print(' '.join(line))
 
 def extend(mat, n):
     """extends the matrix by n  rows/cols"""
@@ -37,6 +48,7 @@ def validconfig(mat):
     return True
 
 def reduce(mat):
+    # THIS FUNCTION NEEDS TO BE FIXED! IT DOESN'T WORK PROPERLY
     """makes mat as small as possible while maintaining it square and not
     losing any ones"""
     empty = 0
@@ -52,7 +64,11 @@ def reduce(mat):
     newmat.append(mat[0][:-empty])
     for i in range(1,d):
         if 1 in mat[i] and i != 0:
-            newmat.append(mat[i][:-empty])
+            oneslist = [1 for i in range(len(mat))]
+            if mat[i] == oneslist:
+                newmat.append(mat[i])
+            else:
+                newmat.append(mat[i][:-empty])
         
     return newmat
 
@@ -107,18 +123,20 @@ class Block:
         self.back = back
 
 
-# MODIFICATION REQUIRED - how to change center
 class FlatShape:
-    def  __init__(self, d, mat=[]):
-        self.d = d
-        self.mat = mat
+    def  __init__(self, d, mat=[]): 
+        self.d = d # dimension
+        self.mat = mat # matrix
         
     def reduceself(self):
+        # FIX AUX FUNCTION! THIS DOES NOT WORK
         self.mat = reduce(self.mat)
+        self.d = len(self.mat)
         return self.mat
         
     def extendself(self, n):
         self.mat = extend(self.mat, n)
+        self.d = len(self.mat)
         return self.mat
         
     def transform(self, x, y):
@@ -205,7 +223,21 @@ class FlatShape:
     
     def does_intersect(self, shape):
         # returns a boolean; whether self and the other shape overlap anywhere
-        pass
+        ext = shape.mat
+        if self.d > shape.d:
+            ext = extend(shape.mat, self.d - shape.d)
+            
+        elif shape.d > self.d:
+            ext = extend(self.mat, shape.d - self.d)
+        
+        for i in range(self.d):
+            for j in range(self.d):
+                if ext[i][j] == 1 and self.mat[i][j] == 1:
+                    return True
+        
+        return False
+            
+        
         
 
 class Triangle(FlatShape):
