@@ -1,6 +1,15 @@
 # import stuff here
 
 
+# TO DO
+# Fix reduce function
+# (Optionally) fix prettyprint
+# Add scalar
+# 
+
+# DONE
+
+
 # Auxiliary functions
 
 # Note that some of these may be integrated into the classes directly later
@@ -122,8 +131,7 @@ class Block:
         self.front = front
         self.back = back
 
-
-class FlatShape:
+class Shape2D:
     def  __init__(self, d, mat=[]): 
         self.d = d # dimension
         self.mat = mat # matrix
@@ -236,11 +244,16 @@ class FlatShape:
                     return True
         
         return False
+    
+    def scale(self, x):
+        # make shape bigger by x blocks
+        new = self.d + x
+        self.d = new
+        self.mat = self.generate()
+        return self.mat
             
-        
-        
 
-class Triangle(FlatShape):
+class Triangle(Shape2D):
     def __init__(self, d, mat=[]):
         super().__init__(d, mat=[])
         
@@ -267,7 +280,7 @@ class Triangle(FlatShape):
         return self.mat
     
 
-class Square(FlatShape):
+class Square(Shape2D):
     def __init__(self, d, mat=[]):
         super().__init__(d, mat=[])
         
@@ -276,7 +289,7 @@ class Square(FlatShape):
         return self.mat
     
     
-class Circle(FlatShape):
+class Circle(Shape2D):
     def __init__(self, d, c = None, mat=[]):
         super().__init__(d, mat=[])
         
