@@ -10,6 +10,9 @@ def add_zeroes(arr, n):
     return [0 for x in range(n)] + arr + [0 for x in range(n)]
 
 def prettyprint_mat(mat):
+    # This function is not good, it kind of works but it's spaghetti code
+    # It modifies the matrix entries to strings, which we don't want
+    # Needs to be fixed or replaced
     for y in range(len(mat)):
         for x in range(len(mat)):
             mat[y][x] = str(mat[y][x])
@@ -49,6 +52,9 @@ def validconfig(mat):
 
 def reduce(mat):
     # THIS FUNCTION NEEDS TO BE FIXED! IT DOESN'T WORK PROPERLY
+    # Test it on a couple of different examples to understand why
+    # It removes stuff where it shouldn't, and we end up with non square matrices sometimes
+    # Or just weird matrices, really.. 
     """makes mat as small as possible while maintaining it square and not
     losing any ones"""
     empty = 0
