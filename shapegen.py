@@ -179,7 +179,7 @@ class Shape2D:
         ytransf = transform_y(xtransf, y)
         self.mat = ytransf
         return self.mat
-    
+
     def union(self, shape):
         # union of 2 shapes is the space occupied by both of them
         n = max(self.d, shape.d)
@@ -342,36 +342,56 @@ class Circle(Shape2D):
     
 
 class Shape3D():
-    def __init__(self, d, matlist=[]):
+    # in the event that we have a weird irregular shape, 
+    # self.d is the largest number of continuous ones in a row
+    def __init__(self, d, layers=[]):
         self.d = d
-        self.matlist = matlist
+        self.layers = layers
         
     def generate(self):
         pass
     
     def valid(self):
-        pass
+        if self.layers == []:
+            return True
+        
+        res = self.layers[0].valid()
+        for shape in self.layers:
+            res = res and shape.mat.valid()
+            
+        return res
+       
+
+    # Actually I'm not so sure we want to include this 
     
-    def subtract(self, shape):
-        pass
+    # This function doesn't work anyway
+    # def subtract(self, shape):
+    #     # subtracts shape from self
+    #     res = []
+    #     if len(self.layers) >= shape.layers:
+    #         for i in range(len(shape.layers)):
+    #             try:
+    #                 res.append(self.layers[i].subtract(shape.layers[i]))
+    #             except IndexError:
+    #                 self.layers = res
+    #                 return self.layers
+            
     
-    def union(self, shape):
-        pass
+    # def union(self, shape):
+    #     pass
     
-    def intersection(self, shape):
-        pass
+    # def intersection(self, shape):
+    #     pass
     
     
 class Sphere(Shape3D):
-    def __init__(self, d, matlist=[]):
-        super().__init__(d, matlist=[])
+    def __init__(self, d, layers=[]):
+        super().__init__(d, layers=[])
         
     def generate(self):
         cnt = 1
-        extby = self.d // 2
-        #oneext = extend_center([[1]], extby)
-        #self.matlist.append(Circle(len(oneext), None, oneext))
-        
+        res = []
+
         while cnt != self.d + 2:
             circle = Circle(cnt)
             mat = circle.generate()
@@ -380,14 +400,104 @@ class Sphere(Shape3D):
                 diff = len(mat) - self.d
                 circle.mat = extend_center(mat, diff)
             
-            self.matlist.append(circle)
+            res.append(circle)
             
             cnt += 2
         
-        addme = self.matlist[:len(self.matlist)-1]
-        self.matlist = self.matlist + addme[::-1]
         
-        return self.matlist            
+        self.layers = res
+        addme = self.layers[:len(self.layers)-1]
+        self.layers = self.layers + addme[::-1]
+        
+        return self.matlist
+
+class Cube(Shape3D):
+    def __init__(self, d, layers=[]):
+        super().__init__(d, layers=[])
+
+    def generate(self):
+        cnt = 0
+        res = []
+        
+        while cnt != self.d:
+            square = Square(self.d)
+            mat = square.generate()
+            res.append(square)
+            
+            cnt += 1
+        
+        self.layers = res
+        
+        return self.layers
+    
+class Cylinder(Shape3D):
+    def __init__(self, d, layers=[]):
+        super().__init__(d, layers=[])
+
+    def generate(self):
+        res = []
+        cnt = 0
+        
+        while cnt != self.d:
+            circle = Circle(self.d)
+            mat = circle.generate()
+            res.append(circle)
+            
+            cnt += 1
+        
+        self.layers = res
+        return self.layers
+
+class Cone(Shape3D):
+    def __init__(self, d, layers=[]):
+        super().__init__(d, layers=[])
+
+    def generate(self):
+        cnt = 1
+        res = []
+            
+        while cnt != self.d + 2:
+            circle = Circle(cnt)
+            mat = circle.generate()
+            
+            if len(mat) < self.d:
+                diff = len(mat) - self.d
+                circle.mat = extend_center(mat, diff)
+            
+            res.append(circle)
+            cnt += 2
+        
+        self.layers = res
+        return self.layers
+
+class Pyramid(Shape3D):
+    def __init__(self, d, layers=[]):
+        super().__init__(d, layers=[])
+        
+    def generate(self):
+        cnt = 1
+        res = []
+            
+        while cnt != self.d + 2:
+            square = Square(cnt)
+            mat = square.generate()
+                
+            if len(mat) < self.d:
+                diff = len(mat) - self.d
+                square.mat = extend_center(mat, diff)
+            
+            res.append(square)
+            cnt += 2
+            
+        self.layers = res
+            
+        return self.layers
+    
+
+    
+    
+    
+                   
             
             
             
