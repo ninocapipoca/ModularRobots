@@ -1,6 +1,5 @@
 # import stuff here
 
-
 # TO DO
 # Fix reduce function for 2D shapes
 # (Optionally) fix prettyprint
@@ -493,7 +492,7 @@ class Pyramid(Shape3D):
             
         return self.layers
     
-
+        
     
     
     
