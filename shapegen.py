@@ -145,16 +145,6 @@ def extend_center(mat, n):
 
 
 # Classes
-class Block:
-    # properties
-    # connectors
-    def __init__(self, left, right, top, bottom, front, back):
-        self.left = left
-        self.right = right
-        self.top = top
-        self.bottom = bottom
-        self.front = front
-        self.back = back
 
 class Shape2D:
     def  __init__(self, d, mat=[]): 
@@ -190,7 +180,9 @@ class Shape2D:
             shapemat = shape.extendself(self.d - shape.d)
         elif n == shape.d:
             #shapemat = extend(self.mat, shape.d - self.d)
-            shapemat = self.extendself(shape.d, self.d)
+            shapemat = self.extendself(shape.d - self.d)
+            
+        # print(shapemat) # DEBUGGING
         
         for i in range(n):
             for j in range(n):
@@ -491,8 +483,7 @@ class Pyramid(Shape3D):
         self.layers = res
             
         return self.layers
-    
-        
+
     
     
     
