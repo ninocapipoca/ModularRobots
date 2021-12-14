@@ -47,18 +47,22 @@ def extend(mat, n):
             
     return res
 
-class DSU: #Union Find
+class DSU:
+    """ disjoint set union / union find """
     def __init__(self):
-        self.dsu = {}
+        self.dsu = {}  # maps to parent or -size comp, if is root
     
     def find(self, x):
-        self.dsu.get(x, -1) < 0:
+        """ returns par(component x) """
+        px = self.dsu.get(x, -1)
+        if isinstance(px, int) and px < 0:
             return x
         else:
-            self.dsu[x] = find(self.dsu[x])
+            self.dsu[x] = self.find(self.dsu[x])
             return self.dsu[x]
 
     def merge(self, x, y):
+        """ merges the sets containing x and y """
         x = self.find(x)
         y = self.find(y)
         if x != y:
@@ -69,9 +73,9 @@ class DSU: #Union Find
             self.dsu[y] = x
 
 
-def validconfig(mat):
-    """checks if a flat shape / matrix is a valid configuration"""
-   #Works for 2D and 3D shapes
+def check_connected(X):
+    """ are all filled voxels are in the same connected component
+        of the graph of direct neighbors """
     if isinstance(X[0][0], list): # 3D
         dx,dy,dz = len(X), len(X[0]), len(X[0][0])
         pos = [(x,y,z) 
@@ -101,16 +105,16 @@ def validconfig(mat):
     else:
         # 2D
         dx,dy = len(X), len(X[0])
-        pos = [(x,y,z) 
+        pos = [(x,y) 
             for x in range(dx)
             for y in range(dy)
             if X[x][y]
         ]
-        def valid(x,y,z):
+        def valid(x,y):
             return (0 <= x < dx
                     and 0 <= y < dy)
         dsu = DSU()
-        for (x,y,z) in pos:
+        for (x,y) in pos:
             for xx,yy in [
                 (x+1,y),
                 (x-1,y),
@@ -121,34 +125,54 @@ def validconfig(mat):
                     dsu.merge((x,y), (xx,yy))
         components = set(dsu.find(p) for p in pos)
         return len(components) == 1
-
-def reduce(mat):
-    # THIS FUNCTION NEEDS TO BE FIXED! IT DOESN'T WORK PROPERLY
-    # Test it on a couple of different examples to understand why
-    # It removes stuff where it shouldn't, and we end up with non square matrices sometimes
-    # Or just weird matrices, really.. 
-    """makes mat as small as possible while maintaining it square and not
-    losing any ones"""
-    empty = 0
-    d = len(mat)
     
-    newmat = []
+from itertools import product
 
-    for i in range(d-1, -1, -1):
-        if 1 in mat[i]:
-            break
-        empty += 1
+def get_shape(M):
+    if isinstance(M, list):
+        return (len(M),) + get_shape(M[0])
+    else: return tuple()
+
+
+def iterate(shape):
+    return product(*map(range, shape))
+
+
+def mdaccess(coords, M):
+    if len(coords) == 3:
+        i,j,k = coords
+        return M[i][j][k]
+    if len(coords) == 2:
+        i,j = coords
+        return M[i][j]
+    if len(coords) == 1:
+        i, = coords
+        return M[i]
+
+
+def reduce(M):
+    shape = get_shape(M)
+    resize = []
     
-    newmat.append(mat[0][:-empty])
-    for i in range(1,d):
-        if 1 in mat[i] and i != 0:
-            oneslist = [1 for i in range(len(mat))]
-            if mat[i] == oneslist:
-                newmat.append(mat[i])
-            else:
-                newmat.append(mat[i][:-empty])
-        
-    return newmat
+    def all_zeros(ax,i):
+        for coor in iterate(shape[:ax] + shape[ax+1:]):
+            coor = (*coor[:ax], i, *coor[ax:])
+            if mdaccess(coor, M): return False
+        return True
+    
+    for ax, sz in enumerate(shape):
+        for i in range(sz):
+            if not all_zeros(ax,i):
+                break
+        for j in range(sz-1, i-1, -1):
+            if not all_zeros(ax, j):
+                break
+        resize.append((i,j+1))
+    # print(resize)
+    def rsz(M, shape):
+        if len(shape) == 1:
+            (x,y), = shape
+            return M[x:y]
 
 def transform_y(mat, y):
     """moves the shape inside mat by y"""
