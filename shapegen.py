@@ -47,21 +47,80 @@ def extend(mat, n):
             
     return res
 
+class DSU: #Union Find
+    def __init__(self):
+        self.dsu = {}
+    
+    def find(self, x):
+        self.dsu.get(x, -1) < 0:
+            return x
+        else:
+            self.dsu[x] = find(self.dsu[x])
+            return self.dsu[x]
+
+    def merge(self, x, y):
+        x = self.find(x)
+        y = self.find(y)
+        if x != y:
+            vx, vy = self.dsu.get(x, -1), self.dsu.get(y, -1)
+            if vx > vy:
+                x,y = y,x
+            self.dsu[x] = vx + vy
+            self.dsu[y] = x
+
+
 def validconfig(mat):
     """checks if a flat shape / matrix is a valid configuration"""
-    # it is valid if a block is connected to at least one other block
-    # i.e. all the ones have at least 1 neighbor that is a one
-
-    for x in range(len(mat)):
-        for y in range(len(mat)):
-            if mat[x][y] == 1:
-                neighbors = [mat[x+a[0]][y+a[1]] for a in 
-                             [(-1,0), (1,0), (0,-1), (0,1)] 
-                             if ( (0 <= x + a[0] < len(mat)) and (0 <= y + a[1] < len(mat)))]
-                
-                if 1 not in neighbors:
-                    return False
-    return True
+   #Works for 2D and 3D shapes
+    if isinstance(X[0][0], list): # 3D
+        dx,dy,dz = len(X), len(X[0]), len(X[0][0])
+        pos = [(x,y,z) 
+            for x in range(dx)
+            for y in range(dy)
+            for z in range(dz)
+            if X[x][y][z]
+        ]
+        def valid(x,y,z):
+            return (0 <= x < dx
+                    and 0 <= y < dy
+                    and 0 <= z < dz)
+        dsu = DSU()
+        for (x,y,z) in pos:
+            for xx,yy,zz in [
+                (x+1,y,z),
+                (x-1,y,z),
+                (x,y+1,z),
+                (x,y-1,z),
+                (x,y,z+1),
+                (x,y,z-1),
+            ]:
+                if valid(xx,yy,zz) and X[xx][yy][zz]:
+                    dsu.merge((x,y,z), (xx,yy,zz))
+        components = set(dsu.find(p) for p in pos)
+        return len(components) == 1
+    else:
+        # 2D
+        dx,dy = len(X), len(X[0])
+        pos = [(x,y,z) 
+            for x in range(dx)
+            for y in range(dy)
+            if X[x][y]
+        ]
+        def valid(x,y,z):
+            return (0 <= x < dx
+                    and 0 <= y < dy)
+        dsu = DSU()
+        for (x,y,z) in pos:
+            for xx,yy in [
+                (x+1,y),
+                (x-1,y),
+                (x,y+1),
+                (x,y-1),
+            ]:
+                if valid(xx,yy) and X[xx][yy]:
+                    dsu.merge((x,y), (xx,yy))
+        components = set(dsu.find(p) for p in pos)
+        return len(components) == 1
 
 def reduce(mat):
     # THIS FUNCTION NEEDS TO BE FIXED! IT DOESN'T WORK PROPERLY
