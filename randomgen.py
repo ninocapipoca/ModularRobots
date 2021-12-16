@@ -16,7 +16,7 @@ def random_binmat(d):
     # generates a random binary matrix of dimension d x d
     return [[rand.randint(0,1) for x in range(d)] for y in range(d)]
 
-def random_shape2D(d): # DOESN'T REALLY WORK
+def random_shape2D(d):
     # generates a completely random 2D shape
     # provided it fits in a matrix that is of dimension d x d
     generated = random_binmat(d)

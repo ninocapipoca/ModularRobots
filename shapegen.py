@@ -150,7 +150,7 @@ def mdaccess(coords, M):
         return M[i]
 
 
-def reduce(M):
+def reduce(M): # 
     shape = get_shape(M)
     resize = []
     
@@ -173,6 +173,10 @@ def reduce(M):
         if len(shape) == 1:
             (x,y), = shape
             return M[x:y]
+        (x,y),*rest = shape
+        return [rsz(m,rest) for m in M[x:y]]
+    return rsz(M, resize)
+        
 
 def transform_y(mat, y):
     """moves the shape inside mat by y"""
@@ -276,7 +280,7 @@ class Shape2D:
         return self.mat
     
     def valid(self):
-        return validconfig(self.mat)
+        return check_connected(self.mat)
     
     def intersection(self, shape):
         # intersection of 2 shapes is the space occupied where they overlap
