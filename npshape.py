@@ -46,12 +46,17 @@ def translate(arr, dt):
     if k < 0: out[:,:,k:] = 0
     return out
 
+def scale_from_middle(coords, shape, s):
+    mid = np.array(shape) / 2
+    i,j,k = map(int, mid + (np.array(coords) - mid) * s)
+    return i,j,k
+
 def scale(arr, s):
     # scales from the center
     if s <= 1:
         out = arr * 0
         for coor in product(*map(range, arr.shape)):
-            i,j,k = np.array(coor) // 4 + np.array(arr.shape) // 2
+            i,j,k = scale_from_middle(coor, arr.shape, s)
             out[i,j,k] |= arr[coor]
         return out
     assert isinstance(s, int)
@@ -65,7 +70,7 @@ def scale(arr, s):
     # # resize
     # i,j,k = arr.shape
     # return out[:i,:j,:k]
-
+    
 def rotate(arr, axis):
     # axis = +/- {1,2,3}
     i,j,k = arr.shape
