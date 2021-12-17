@@ -1,0 +1,145 @@
+package shape
+	use BlinkyBlockCable
+	use BlinkyBlock
+	use ports
+
+	compound type shape()
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock0,0,1(0,0,1)
+		connector Synchron2_int connect_f0,0,1_b0,1,1(BlinkyBlock0,0,1.CONNECT_FRONT, BlinkyBlock0,1,1.CONNECT_BACK)
+		connector Synchron2_int disconnect_f0,0,1_b0,1,1(BlinkyBlock0,0,1.DISCONNECT_FRONT, BlinkyBlock0,1,1.DISCONNECT_BACK)
+
+
+
+
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock0,1,0(0,1,0)
+
+
+		connector Synchron2_int connect_r0,1,0_l0,1,1(BlinkyBlock0,1,0.CONNECT_RIGHT, BlinkyBlock0,1,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_r0,1,0_l0,1,1(BlinkyBlock0,1,0.DISCONNECT_RIGHT, BlinkyBlock0,1,1.DISCONNECT_LEFT)
+
+		connector Synchron2_int connect_b1,1,0_t0,1,0(BlinkyBlock1,1,0.CONNECT_BOTTOM, BlinkyBlock0,1,0.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,1,0_t0,1,0(BlinkyBlock1,1,0.DISCONNECT_BOTTOM, BlinkyBlock0,1,0.DISCONNECT_TOP)
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock0,1,1(0,1,1)
+		connector Synchron2_int connect_f0,1,1_b0,0,1(BlinkyBlock0,1,1.CONNECT_FRONT, BlinkyBlock0,0,1.CONNECT_BACK)
+		connector Synchron2_int disconnect_f0,1,1_b0,0,1(BlinkyBlock0,1,1.DISCONNECT_FRONT, BlinkyBlock0,0,1.DISCONNECT_BACK)
+
+		connector Synchron2_int connect_r0,1,1_l0,1,2(BlinkyBlock0,1,1.CONNECT_RIGHT, BlinkyBlock0,1,2.CONNECT_LEFT)
+		connector Synchron2_int disconnect_r0,1,1_l0,1,2(BlinkyBlock0,1,1.DISCONNECT_RIGHT, BlinkyBlock0,1,2.DISCONNECT_LEFT)
+		connector Synchron2_int connect_l0,1,0_r0,1,1(BlinkyBlock0,1,0.CONNECT_RIGHT, BlinkyBlock0,1,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_l0,1,0_r0,1,1(BlinkyBlock0,1,0.DISCONNECT_RIGHT, BlinkyBlock0,1,1.DISCONNECT_LEFT)
+		connector Synchron2_int connect_b1,1,1_t0,1,1(BlinkyBlock1,1,1.CONNECT_BOTTOM, BlinkyBlock0,1,1.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,1,1_t0,1,1(BlinkyBlock1,1,1.DISCONNECT_BOTTOM, BlinkyBlock0,1,1.DISCONNECT_TOP)
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock0,1,2(0,1,2)
+		connector Synchron2_int connect_f0,1,2_b0,2,2(BlinkyBlock0,1,2.CONNECT_FRONT, BlinkyBlock0,2,2.CONNECT_BACK)
+		connector Synchron2_int disconnect_f0,1,2_b0,2,2(BlinkyBlock0,1,2.DISCONNECT_FRONT, BlinkyBlock0,2,2.DISCONNECT_BACK)
+
+
+		connector Synchron2_int connect_l0,1,1_r0,1,2(BlinkyBlock0,1,1.CONNECT_RIGHT, BlinkyBlock0,1,2.CONNECT_LEFT)
+		connector Synchron2_int disconnect_l0,1,1_r0,1,2(BlinkyBlock0,1,1.DISCONNECT_RIGHT, BlinkyBlock0,1,2.DISCONNECT_LEFT)
+		connector Synchron2_int connect_b1,1,2_t0,1,2(BlinkyBlock1,1,2.CONNECT_BOTTOM, BlinkyBlock0,1,2.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,1,2_t0,1,2(BlinkyBlock1,1,2.DISCONNECT_BOTTOM, BlinkyBlock0,1,2.DISCONNECT_TOP)
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock0,2,2(0,2,2)
+		connector Synchron2_int connect_f0,2,2_b0,1,2(BlinkyBlock0,2,2.CONNECT_FRONT, BlinkyBlock0,1,2.CONNECT_BACK)
+		connector Synchron2_int disconnect_f0,2,2_b0,1,2(BlinkyBlock0,2,2.DISCONNECT_FRONT, BlinkyBlock0,1,2.DISCONNECT_BACK)
+
+
+
+		connector Synchron2_int connect_b1,2,2_t0,2,2(BlinkyBlock1,2,2.CONNECT_BOTTOM, BlinkyBlock0,2,2.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,2,2_t0,2,2(BlinkyBlock1,2,2.DISCONNECT_BOTTOM, BlinkyBlock0,2,2.DISCONNECT_TOP)
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,0,0(1,0,0)
+		connector Synchron2_int connect_f1,0,0_b1,1,0(BlinkyBlock1,0,0.CONNECT_FRONT, BlinkyBlock1,1,0.CONNECT_BACK)
+		connector Synchron2_int disconnect_f1,0,0_b1,1,0(BlinkyBlock1,0,0.DISCONNECT_FRONT, BlinkyBlock1,1,0.DISCONNECT_BACK)
+
+
+
+		connector Synchron2_int connect_b2,0,0_t1,0,0(BlinkyBlock2,0,0.CONNECT_BOTTOM, BlinkyBlock1,0,0.CONNECT_TOP)
+		connector Synchron2_int disconnect_b2,0,0_t1,0,0(BlinkyBlock2,0,0.DISCONNECT_BOTTOM, BlinkyBlock1,0,0.DISCONNECT_TOP)
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,1,0(1,1,0)
+		connector Synchron2_int connect_f1,1,0_b1,0,0(BlinkyBlock1,1,0.CONNECT_FRONT, BlinkyBlock1,0,0.CONNECT_BACK)
+		connector Synchron2_int disconnect_f1,1,0_b1,0,0(BlinkyBlock1,1,0.DISCONNECT_FRONT, BlinkyBlock1,0,0.DISCONNECT_BACK)
+
+		connector Synchron2_int connect_r1,1,0_l1,1,1(BlinkyBlock1,1,0.CONNECT_RIGHT, BlinkyBlock1,1,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_r1,1,0_l1,1,1(BlinkyBlock1,1,0.DISCONNECT_RIGHT, BlinkyBlock1,1,1.DISCONNECT_LEFT)
+
+		connector Synchron2_int connect_b2,1,0_t1,1,0(BlinkyBlock2,1,0.CONNECT_BOTTOM, BlinkyBlock1,1,0.CONNECT_TOP)
+		connector Synchron2_int disconnect_b2,1,0_t1,1,0(BlinkyBlock2,1,0.DISCONNECT_BOTTOM, BlinkyBlock1,1,0.DISCONNECT_TOP)
+		connector Synchron2_int connect_b1,1,0_t0,1,0(BlinkyBlock1,1,0.CONNECT_BOTTOM, BlinkyBlock0,1,0.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,1,0_t0,1,0(BlinkyBlock1,1,0.DISCONNECT_BOTTOM, BlinkyBlock0,1,0.DISCONNECT_TOP)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,1,1(1,1,1)
+
+
+		connector Synchron2_int connect_r1,1,1_l1,1,2(BlinkyBlock1,1,1.CONNECT_RIGHT, BlinkyBlock1,1,2.CONNECT_LEFT)
+		connector Synchron2_int disconnect_r1,1,1_l1,1,2(BlinkyBlock1,1,1.DISCONNECT_RIGHT, BlinkyBlock1,1,2.DISCONNECT_LEFT)
+		connector Synchron2_int connect_l1,1,0_r1,1,1(BlinkyBlock1,1,0.CONNECT_RIGHT, BlinkyBlock1,1,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_l1,1,0_r1,1,1(BlinkyBlock1,1,0.DISCONNECT_RIGHT, BlinkyBlock1,1,1.DISCONNECT_LEFT)
+		connector Synchron2_int connect_b2,1,1_t1,1,1(BlinkyBlock2,1,1.CONNECT_BOTTOM, BlinkyBlock1,1,1.CONNECT_TOP)
+		connector Synchron2_int disconnect_b2,1,1_t1,1,1(BlinkyBlock2,1,1.DISCONNECT_BOTTOM, BlinkyBlock1,1,1.DISCONNECT_TOP)
+		connector Synchron2_int connect_b1,1,1_t0,1,1(BlinkyBlock1,1,1.CONNECT_BOTTOM, BlinkyBlock0,1,1.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,1,1_t0,1,1(BlinkyBlock1,1,1.DISCONNECT_BOTTOM, BlinkyBlock0,1,1.DISCONNECT_TOP)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,1,2(1,1,2)
+		connector Synchron2_int connect_f1,1,2_b1,2,2(BlinkyBlock1,1,2.CONNECT_FRONT, BlinkyBlock1,2,2.CONNECT_BACK)
+		connector Synchron2_int disconnect_f1,1,2_b1,2,2(BlinkyBlock1,1,2.DISCONNECT_FRONT, BlinkyBlock1,2,2.DISCONNECT_BACK)
+
+
+		connector Synchron2_int connect_l1,1,1_r1,1,2(BlinkyBlock1,1,1.CONNECT_RIGHT, BlinkyBlock1,1,2.CONNECT_LEFT)
+		connector Synchron2_int disconnect_l1,1,1_r1,1,2(BlinkyBlock1,1,1.DISCONNECT_RIGHT, BlinkyBlock1,1,2.DISCONNECT_LEFT)
+
+		connector Synchron2_int connect_b1,1,2_t0,1,2(BlinkyBlock1,1,2.CONNECT_BOTTOM, BlinkyBlock0,1,2.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,1,2_t0,1,2(BlinkyBlock1,1,2.DISCONNECT_BOTTOM, BlinkyBlock0,1,2.DISCONNECT_TOP)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,2,2(1,2,2)
+		connector Synchron2_int connect_f1,2,2_b1,1,2(BlinkyBlock1,2,2.CONNECT_FRONT, BlinkyBlock1,1,2.CONNECT_BACK)
+		connector Synchron2_int disconnect_f1,2,2_b1,1,2(BlinkyBlock1,2,2.DISCONNECT_FRONT, BlinkyBlock1,1,2.DISCONNECT_BACK)
+
+
+
+
+		connector Synchron2_int connect_b1,2,2_t0,2,2(BlinkyBlock1,2,2.CONNECT_BOTTOM, BlinkyBlock0,2,2.CONNECT_TOP)
+		connector Synchron2_int disconnect_b1,2,2_t0,2,2(BlinkyBlock1,2,2.DISCONNECT_BOTTOM, BlinkyBlock0,2,2.DISCONNECT_TOP)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,0,0(2,0,0)
+		connector Synchron2_int connect_f2,0,0_b2,1,0(BlinkyBlock2,0,0.CONNECT_FRONT, BlinkyBlock2,1,0.CONNECT_BACK)
+		connector Synchron2_int disconnect_f2,0,0_b2,1,0(BlinkyBlock2,0,0.DISCONNECT_FRONT, BlinkyBlock2,1,0.DISCONNECT_BACK)
+
+		connector Synchron2_int connect_r2,0,0_l2,0,1(BlinkyBlock2,0,0.CONNECT_RIGHT, BlinkyBlock2,0,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_r2,0,0_l2,0,1(BlinkyBlock2,0,0.DISCONNECT_RIGHT, BlinkyBlock2,0,1.DISCONNECT_LEFT)
+
+
+		connector Synchron2_int connect_b2,0,0_t1,0,0(BlinkyBlock2,0,0.CONNECT_BOTTOM, BlinkyBlock1,0,0.CONNECT_TOP)
+		connector Synchron2_int disconnect_b2,0,0_t1,0,0(BlinkyBlock2,0,0.DISCONNECT_BOTTOM, BlinkyBlock1,0,0.DISCONNECT_TOP)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,0,1(2,0,1)
+		connector Synchron2_int connect_f2,0,1_b2,1,1(BlinkyBlock2,0,1.CONNECT_FRONT, BlinkyBlock2,1,1.CONNECT_BACK)
+		connector Synchron2_int disconnect_f2,0,1_b2,1,1(BlinkyBlock2,0,1.DISCONNECT_FRONT, BlinkyBlock2,1,1.DISCONNECT_BACK)
+
+
+		connector Synchron2_int connect_l2,0,0_r2,0,1(BlinkyBlock2,0,0.CONNECT_RIGHT, BlinkyBlock2,0,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_l2,0,0_r2,0,1(BlinkyBlock2,0,0.DISCONNECT_RIGHT, BlinkyBlock2,0,1.DISCONNECT_LEFT)
+
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,1,0(2,1,0)
+		connector Synchron2_int connect_f2,1,0_b2,0,0(BlinkyBlock2,1,0.CONNECT_FRONT, BlinkyBlock2,0,0.CONNECT_BACK)
+		connector Synchron2_int disconnect_f2,1,0_b2,0,0(BlinkyBlock2,1,0.DISCONNECT_FRONT, BlinkyBlock2,0,0.DISCONNECT_BACK)
+
+		connector Synchron2_int connect_r2,1,0_l2,1,1(BlinkyBlock2,1,0.CONNECT_RIGHT, BlinkyBlock2,1,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_r2,1,0_l2,1,1(BlinkyBlock2,1,0.DISCONNECT_RIGHT, BlinkyBlock2,1,1.DISCONNECT_LEFT)
+
+
+		connector Synchron2_int connect_b2,1,0_t1,1,0(BlinkyBlock2,1,0.CONNECT_BOTTOM, BlinkyBlock1,1,0.CONNECT_TOP)
+		connector Synchron2_int disconnect_b2,1,0_t1,1,0(BlinkyBlock2,1,0.DISCONNECT_BOTTOM, BlinkyBlock1,1,0.DISCONNECT_TOP)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,1,1(2,1,1)
+		connector Synchron2_int connect_f2,1,1_b2,0,1(BlinkyBlock2,1,1.CONNECT_FRONT, BlinkyBlock2,0,1.CONNECT_BACK)
+		connector Synchron2_int disconnect_f2,1,1_b2,0,1(BlinkyBlock2,1,1.DISCONNECT_FRONT, BlinkyBlock2,0,1.DISCONNECT_BACK)
+
+
+		connector Synchron2_int connect_l2,1,0_r2,1,1(BlinkyBlock2,1,0.CONNECT_RIGHT, BlinkyBlock2,1,1.CONNECT_LEFT)
+		connector Synchron2_int disconnect_l2,1,0_r2,1,1(BlinkyBlock2,1,0.DISCONNECT_RIGHT, BlinkyBlock2,1,1.DISCONNECT_LEFT)
+
+		connector Synchron2_int connect_b2,1,1_t1,1,1(BlinkyBlock2,1,1.CONNECT_BOTTOM, BlinkyBlock1,1,1.CONNECT_TOP)
+		connector Synchron2_int disconnect_b2,1,1_t1,1,1(BlinkyBlock2,1,1.DISCONNECT_BOTTOM, BlinkyBlock1,1,1.DISCONNECT_TOP)
+	end
+end
