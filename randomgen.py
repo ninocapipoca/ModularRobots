@@ -27,7 +27,10 @@ def random_shape2D(d):
         
     return shape
 
-def random_union(shape, maxsize):  # I'M NOT SURE THIS FUNCTION WORKS
+def random_union(shape, maxsize):
+    # This function doesn't work properly, an attempt was made but it was
+    # unsuccessful :(
+    
     # union with a random shape of max dimension maxsize
     # returns the matrix of shape when union has been performed
     d = rand.randint(1, maxsize)

@@ -218,7 +218,7 @@ def transform_x(mat, x):
 def extend_center(mat, n):
     if n%2 != 0:
         print("Error, you can only extend by an even number")
-        return mat
+        return
     res = []
         
     for line in mat:
@@ -438,6 +438,13 @@ class Shape3D():
             res = res and shape.mat.valid()
             
         return res
+    
+    def matlist(self):
+        matlist = []
+        for shape in self.layers:
+            matlist.append(shape.mat)
+        
+        return matlist
        
 
     # Actually I'm not so sure we want to include this 
@@ -475,7 +482,7 @@ class Sphere(Shape3D):
             mat = circle.generate()
             
             if len(mat) < self.d:
-                diff = len(mat) - self.d
+                diff = abs(len(mat) - self.d)
                 circle.mat = extend_center(mat, diff)
             
             res.append(circle)
@@ -487,7 +494,7 @@ class Sphere(Shape3D):
         addme = self.layers[:len(self.layers)-1]
         self.layers = self.layers + addme[::-1]
         
-        return self.matlist
+        return self.layers
 
 class Cube(Shape3D):
     def __init__(self, d, layers=[]):
@@ -539,13 +546,13 @@ class Cone(Shape3D):
             mat = circle.generate()
             
             if len(mat) < self.d:
-                diff = len(mat) - self.d
+                diff = abs(len(mat) - self.d)
                 circle.mat = extend_center(mat, diff)
             
             res.append(circle)
             cnt += 2
         
-        self.layers = res
+        self.layers = res[::-1]
         return self.layers
 
 class Pyramid(Shape3D):
@@ -553,21 +560,24 @@ class Pyramid(Shape3D):
         super().__init__(d, layers=[])
         
     def generate(self):
+        if self.d%2 == 0:
+            print("Error - Dimension must be an even number")
+            return
         cnt = 1
         res = []
             
         while cnt != self.d + 2:
             square = Square(cnt)
             mat = square.generate()
-                
+             
             if len(mat) < self.d:
-                diff = len(mat) - self.d
+                diff = self.d - len(mat)
                 square.mat = extend_center(mat, diff)
             
             res.append(square)
             cnt += 2
             
-        self.layers = res
+        self.layers = res[::-1]
             
         return self.layers
 

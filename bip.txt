@@ -1,0 +1,23 @@
+package shape
+	use BlinkyBlockCable
+	use BlinkyBlock
+	use ports
+
+	compound type shape()
+
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock0,2(0,2)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,1(1,1)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,2(1,2)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock1,3(1,3)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,0(2,0)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,1(2,1)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,2(2,2)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,3(2,3)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock2,4(2,4)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock3,1(3,1)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock3,2(3,2)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock3,3(3,3)
+		component BlinkyBlock.CubeBlinkyBlock BlinkyBlock4,2(4,2)
+		component BlinkyBlock.Cube_BlinkyBlock_With_Cable_Port BlinkyBlockpower(power)
+	end
+end
